@@ -1,1 +1,73 @@
+times() 의 중복을 제거하고 하위 클래스를 제거해보자
+
+Dollar, Franc의 times() 구현이 비슷하다.
+
+```java
+// Money.class
+Money times(int multiplier) {
+    return Money.dollar(amount * multiplier);
+}
+
+// Franc.class
+Money times(int multiplier) {
+    return Money.franc(amount * multiplier);
+}
+```
+
+<br>
+
+
+팩토리 메서드를 생성자로 돌려보자.
+```java
+// Dollar.class
+Money times(int multiplier) {
+    return new Dollar(amount * multiplier, "USD");
+}
+
+// Franc.class
+Money times(int multiplier) {
+    return new Franc(amount * multiplier, "CHF");
+}
+```
+
+<br>
+```java
+// Dollar.class
+Money times(int multiplier) {
+    return new Dollar(amount * multiplier, currency);
+}
+
+// Franc.class
+Money times(int multiplier) {
+    return new Franc(amount * multiplier, currency);
+}
+```
+
+<br>
+
+Money 객체를 반환하도록 수정하다.
+```java
+// Dollar.class
+Money times(int multiplier) {
+    return new Money(amount * multiplier, currency);
+}
+
+// Franc.class
+Money times(int multiplier) {
+    return new Money(amount * multiplier, currency);
+}
+```
+
+equals() 메서드에서 클래스 비교가 아닌 통화를 비교해야 한다.
+```java
+public boolean equals(Object object) {
+    Money money = (Money) object;
+    return amount == money.amount && currency().equals(money.currency());
+}
+```
+
+
+
+
+
 
